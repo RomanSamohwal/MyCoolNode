@@ -26,7 +26,10 @@ const UsersSchema = new mongoose.Schema({
 const Users = mongoose.model('Users', UsersSchema)
 
 app.get('/', (req, res) => {
-  res.send('Hello word')
+  Users.create({
+       name: 'Roman',
+       email: 'test@test.com'
+      }).then(user => res.send(user))
 })
 
 const server = createServer(app);
