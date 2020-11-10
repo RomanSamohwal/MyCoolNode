@@ -1,4 +1,6 @@
-const http = require('http');
+const express = require('express')
+const app = express()
+const {createServer} = require('http');
 const port = process.env.PORT || 3000
 const mongoose = require('mongoose')
 
@@ -9,11 +11,25 @@ mongoose.connect('mongodb+srv://roman:mongodb@cluster0.qombh.mongodb.net/easycod
     console.log("MongoDB connected")
 })
 
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/html');
-    res.end('<h1>Hello World</h1>');
-});
+const UsersSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        required: true
+    }
+})
+
+
+const Users = mongoose.model('Users', UsersSchema)
+
+app.get('/', (req, res) => {
+  res.send('Hello word')
+})
+
+const server = createServer(app);
 
 server.listen(port,() => {
     console.log(`Server running at port `+port);
